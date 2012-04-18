@@ -31,6 +31,8 @@ class TesterRational{
 		void test_mul();
 		void test_Steiner();
 		void autotest_Steiner(int len);
+		void test_Euclid();
+		void autotest_Euclid(int len);
 
 		string randomString(int max_length);
 };

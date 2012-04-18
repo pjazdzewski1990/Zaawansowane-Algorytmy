@@ -12,9 +12,13 @@
 #include <vector>
 #include <cstdlib>
 
+#define TIMES 1250
+
 //uruchamiaj wszystkie testy po kolei
 void TesterRational::run(){
 	cout<< "Rational-start" <<endl;
+	test_Euclid();
+	autotest_Euclid(100000);
 	test_Steiner();
 	autotest_GDC(100000);
 	autotest_Steiner(100000);
@@ -33,7 +37,7 @@ void TesterRational::autotest_GDC(int len){
 	vector<Large> y;
 	srand( (unsigned)time(NULL) );
 
-	for (i = 0; i < 100; i++) {
+	for (i = 0; i < TIMES; i++) {
 		x[0] = Large::Set(randomString(len), base, in_base);
 		x[1] = Large::Set(randomString(len), base, in_base);
 		x[2] = Large::Set(randomString(len), base, in_base);
@@ -69,7 +73,7 @@ void TesterRational::autotest_Steiner(int len){
 	Large l2;
 	srand( (unsigned)time(NULL) );
 
-	for (i = 0; i < 100; i++) {
+	for (i = 0; i < TIMES; i++) {
 		l1 = Large::Set(randomString(len), base, in_base);
 		l2 = Large::Set(randomString(len), base, in_base);
 		Large ga = LargeRational::GCD(l1, l2);
@@ -79,6 +83,28 @@ void TesterRational::autotest_Steiner(int len){
 		if (ga != gb) {
 			cout << l1.toString() << " " << l2.toString();
 			cout << " auto_Steiner:Error " << ga.toHex() << " != "<< gb.toHex() << endl;  
+		}
+		cout << "." ;
+	}
+	cout << "k" << endl;
+}
+
+void TesterRational::autotest_Euclid(int len){
+	int i;
+	Large l1;
+	Large l2;
+	srand( (unsigned)time(NULL) );
+
+	for (i = 0; i < TIMES; i++) {
+		l1 = Large::Set(randomString(len), base, in_base);
+		l2 = Large::Set(randomString(len), base, in_base);
+		Large ga = LargeRational::GCD(l1, l2);
+		ga.fix();
+		Large gb = LargeRational::Euclid(l1, l2);
+		gb.fix();
+		if (ga != gb) {
+			cout << l1.toString() << " " << l2.toString();
+			cout << " auto_Euclid:Error " << ga.toHex() << " != "<< gb.toHex() << endl;  
 		}
 		cout << "." ;
 	}
@@ -367,6 +393,93 @@ void TesterRational::test_Steiner(){
 	result = Large::Set("a234",base,in_base);
 	if (!(LargeRational::Steiner(test1, test2) == result)){
 		cout << "Test_Steiner_Rational12: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+}
+
+void TesterRational::test_Euclid(){
+	//test1
+	Large test1 = Large::Set("123", base, in_base);
+	Large test2 = Large::Set("123",base,in_base);
+	Large result =Large::Set("123",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational1: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test2
+	test1 = Large::Set("80", base, in_base);
+	test2 = Large::Set("40",base,in_base);
+	result =Large::Set("40",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational2: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test3
+	test1 = Large::Set("1000", base, in_base);
+	test2 = Large::Set("125",base,in_base);
+	result =Large::Set("1",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational3: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test4
+	test1 = Large::Set("4321", base, in_base);
+	test2 = Large::Set("1234",base,in_base);
+	result = Large::Set("5",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational4: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test5
+	test1 = Large::Set("123321", base, in_base);
+	test2 = Large::Set("0a0",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational5: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test6
+	test1 = Large::Set("123321", base, in_base);
+	test2 = Large::Set("0a0",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational6: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test7
+	test1 = Large::Set("10", base, in_base);
+	test2 = Large::Set("ffbbaa",base,in_base);
+	result = Large::Set("2",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational7: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test8
+	test1 = Large::Set("1", base, in_base);
+	test2 = Large::Set("ffad213",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational8: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test9
+	test1 = Large::Set("1123521", base, in_base);
+	test2 = Large::Set("1",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational9: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test10
+	test1 = Large::Set("11", base, in_base);
+	test2 = Large::Set("1121",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational10: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test11
+	test1 = Large::Set("a234", base, in_base);
+	test2 = Large::Set("234b",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational11: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test12
+	test1 = Large::Set("a234", base, in_base);
+	test2 = Large::Set("b88cd404",base,in_base);
+	result = Large::Set("a234",base,in_base);
+	if (!(LargeRational::Euclid(test1, test2) == result)){
+		cout << "Test_Euclid_Rational12: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
 	}
 }
 

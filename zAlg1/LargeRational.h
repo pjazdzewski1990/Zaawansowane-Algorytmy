@@ -165,7 +165,7 @@ class LargeRational {
 		}
 
 		/**
-			Algorytm Steina wyznaczanie GCD
+			Algorytm Steina wyznaczania GCD
 		*/
 		static Large Steiner(Large u, Large v){
 			Large two = Large::Set("2", u.getBase(), 10); 
@@ -215,6 +215,38 @@ class LargeRational {
 				w = w*two;
 			}
 			return w;
+		}
+
+		/**
+			Algorytm Euklidesa wyznaczania GCD
+		*/
+		static Large Euclid(Large a, Large b){
+		  Large a0 = a;
+		  Large b0 = b;
+
+		  Large zero = Large::Set("0", a.getBase());
+
+		  Large p = Large::Set("1", a.getBase());
+		  Large q = Large::Set("0", a.getBase());
+		  Large r = Large::Set("0", a.getBase());
+		  Large s = Large::Set("1", a.getBase());
+
+
+		  while(b.compareAbsolute(zero)!=0) {
+			Large c;
+			a.divide(b, c);
+			Large quot = a/b;
+			a = b;
+			b = c;
+			Large new_r = p - (quot * r);
+			Large new_s = q - (quot * s);
+			p = r;
+			q = s;
+			r = new_r;
+			s = new_s;
+		  }
+			//Wówczas NWD(a0, b0) = p*a0 + q*b0
+			return p*a0 + q*b0;
 		}
 
 		/**
