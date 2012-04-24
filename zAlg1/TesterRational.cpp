@@ -12,7 +12,7 @@
 #include <vector>
 #include <cstdlib>
 
-#define TIMES 50
+#define TIMES 1000
 
 //uruchamiaj wszystkie testy po kolei
 void TesterRational::run(){
@@ -598,6 +598,13 @@ void TesterRational::test_Lehmar(){
 	result = Large::Set("a234",base,in_base);
 	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
 		cout << "Test_Lehmar_Rational12: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test13
+	test1 = Large::Set("40072", base, in_base);
+	test2 = Large::Set("a3e",base,in_base);
+	result = Large::Set("2",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational13: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
 	}
 }
 

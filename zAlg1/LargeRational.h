@@ -259,11 +259,6 @@ class LargeRational {
 
 			// KROK L1
 			L1:
-			//jeœli liczby s¹ krótkie to mo¿emy poprostu obliczy GCD
-			if(u.length()<=part || v.length()<=part){
-				return LargeRational::GCD(u, v);
-			}
-
 			Large one = Large::Set("1", u.getBase());
 			one.setNegative(false);
 			Large zero = Large::Set("0", u.getBase());
@@ -286,6 +281,10 @@ class LargeRational {
 				Large temp = v;
 				v = u;
 				u = temp;
+			}
+			//jeœli liczby s¹ krótkie to mo¿emy poprostu obliczy GCD
+			if(u.length()<=part || v.length()<=part){
+				return LargeRational::GCD(u, v);
 			}
 
 			//przygotuj wartoœci
