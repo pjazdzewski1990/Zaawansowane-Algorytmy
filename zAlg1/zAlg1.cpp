@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
 	}*/
 
 	Tester t = Tester();
-	//t.run();
+	t.run();
 	TesterRational tt = TesterRational();
 	tt.run();
 

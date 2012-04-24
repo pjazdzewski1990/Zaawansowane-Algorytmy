@@ -33,6 +33,8 @@ class TesterRational{
 		void autotest_Steiner(int len);
 		void test_Euclid();
 		void autotest_Euclid(int len);
+		void test_Lehmar();
+		void autotest_Lehmar(int len);
 
 		string randomString(int max_length);
 };

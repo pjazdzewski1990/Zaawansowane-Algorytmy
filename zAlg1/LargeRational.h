@@ -250,6 +250,99 @@ class LargeRational {
 		}
 
 		/**
+			Algorytm Lehmara wyznaczania GCD
+		*/
+		static Large Lehmar2(Large u, Large v, long part){
+			//pozbywamy siê poprzedzaj¹cych zer
+			u.fix();
+			v.fix();
+
+			// KROK L1
+			L1:
+			//jeœli liczby s¹ krótkie to mo¿emy poprostu obliczy GCD
+			if(u.length()<=part || v.length()<=part){
+				return LargeRational::GCD(u, v);
+			}
+
+			Large one = Large::Set("1", u.getBase());
+			one.setNegative(false);
+			Large zero = Large::Set("0", u.getBase());
+			one.setNegative(false);
+
+			//staramy sie ¿eby u>=v
+			if(v>u){
+				Large temp = v;
+				v = u;
+				u = temp;
+			}
+
+			//GCD nie moze byæ wiêksze ni¿ mniejsza z liczb,
+			// wiêc mo¿na podzieliæ wiêksz¹ przez mniejsz¹
+			//u jest wiêksze 
+			//po tej operacji w u mamy resztê z u/v
+			u.divide(v,u);
+			//ew. zamiana
+			if(v>u){
+				Large temp = v;
+				v = u;
+				u = temp;
+			}
+
+			//przygotuj wartoœci
+			Large u$ = Large(u.copy(part), u.getBase()); 
+			Large v$ = Large(v.copy(part), v.getBase());
+			
+			//cout << u.toString() << "->" << u$.toString() << endl;
+			//cout << v.toString() << "->" << v$.toString() << endl;
+
+			Large A = one;
+			Large B = zero;
+			Large C = zero;
+			Large D = one;
+
+			Large u_ = u$ + B; 
+			Large v_ = u$ + D;
+			Large u__ = u$ + A; 
+			Large v__ = u$ + C;
+
+			// KROK L2
+			Large mianownik = (v$+C);
+			if(!(mianownik.compareAbsolute(zero)==0)){
+				Large q = (u$+A)/mianownik;
+				mianownik = (v$+D);
+				while(!(mianownik.compareAbsolute(zero)==0) && q == ((u$+B)/mianownik)){
+					// KROK L3
+					Large T = A - q*C;
+					A = C;
+					C = T;
+					T = B - q*D;
+					B = D;
+					D = T;
+					T = u$ - q*v$;
+					u$ = v$;
+					v$ = T;
+				}
+			}
+			// KROK L4
+			Large t;
+			Large w;
+			if(!(v.compareAbsolute(zero) == 0)){
+				if(B.compareAbsolute(zero) == 0){ 
+					u.divide(v, t);
+					u = v;
+					v = t;
+				}else{
+					t = A*u;
+					t = t + B*v;
+					w = C*u;
+					w = w + D*v;
+					u = t;
+					v = w;
+				}
+			}
+			goto L1;
+		}
+		/**
 			Dzielenie dwóch ulamków na zasadzie mno¿enia z liczb¹ odwrotn¹ 
 		*/
 		LargeRational divide(LargeRational arg2);

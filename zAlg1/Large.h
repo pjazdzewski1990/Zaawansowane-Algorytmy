@@ -61,34 +61,6 @@ class Large
 			}
 		}
 
-		vector<long> copyUpper(Large& large){
-			vector<long> ret;
-			
-			//uzupelnij liczbe large zerami od lewej
-			// a¿ d³ugoœæ liczby bêdzie poteg¹ 2 
-			//fillToPower(large);
-
-			for(unsigned i=0; i<large.lista.size()/2; i++){
-				ret.push_back(large.lista[i]);
-			}
-
-			return ret;
-		}
-
-		vector<long> copyLower(Large& large){
-			vector<long> ret;
-			
-			//uzupelnij liczbe large zerami od lewej
-			// a¿ d³ugoœæ liczby bêdzie poteg¹ 2 
-			fillToPower(large);
-
-			for(unsigned i=large.lista.size()/2; i<large.lista.size(); i++){
-				ret.push_back(large.lista[i]);
-			}
-
-			return ret;
-		}
-
 		//TODO: nie uzywana
 		bool isPowerOf2(long l){
 			while(true){
@@ -220,6 +192,7 @@ class Large
 			for(unsigned i=0; i<numbers.size(); i++){
 				lista.push_back(numbers[i]);
 			}
+			setNegative(false);
 		}
 
 		/*
@@ -728,6 +701,51 @@ class Large
 			return res;
 		}
 
+		//zwaraca bardziej znacz¹ce liczby
+		vector<long> copyUpper(Large& large){
+			vector<long> ret;
+			
+			//uzupelnij liczbe large zerami od lewej
+			// a¿ d³ugoœæ liczby bêdzie poteg¹ 2 
+			//fillToPower(large);
+
+			for(unsigned i=0; i<large.lista.size()/2; i++){
+				ret.push_back(large.lista[i]);
+			}
+
+			return ret;
+		}
+
+		vector<long> copyLower(Large& large){
+			vector<long> ret;
+			
+			//uzupelnij liczbe large zerami od lewej
+			// a¿ d³ugoœæ liczby bêdzie poteg¹ 2 
+			fillToPower(large);
+
+			for(unsigned i=large.lista.size()/2; i<large.lista.size(); i++){
+				ret.push_back(large.lista[i]);
+			}
+
+			return ret;
+		}
+
+		//zwaraca pewn¹ iloœæ "how_long" najbardziej znacz¹cych liczb
+		// jeœli wektor liczb jest mniejszy ni¿ "how_long" to zwraca zawartoœæ wektora
+		vector<long> copy(long how_long){
+			vector<long> ret;
+			
+			//uzupelnij liczbe large zerami od lewej
+			// a¿ d³ugoœæ liczby bêdzie poteg¹ 2 
+			//fillToPower(large);
+
+			for(unsigned i=0; i<how_long && i<lista.size(); i++){
+				ret.push_back(lista[i]);
+			}
+
+			return ret;
+		}
+
 		string toHex(){
 			stringstream ss;
 			
@@ -800,6 +818,8 @@ class Large
 		long getBase();
 
 		long lastNum();
+
+		long length();
 
 		//OPERATORY
 		inline bool operator<(Large l) {

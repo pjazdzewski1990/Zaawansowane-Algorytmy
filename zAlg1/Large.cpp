@@ -176,3 +176,7 @@ long Large::lastNum(){
 	long result = lista[lista.size()-1];
 	return result;
 }
+
+long Large::length(){
+	return lista.size();
+}

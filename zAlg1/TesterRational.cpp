@@ -12,11 +12,13 @@
 #include <vector>
 #include <cstdlib>
 
-#define TIMES 1250
+#define TIMES 50
 
 //uruchamiaj wszystkie testy po kolei
 void TesterRational::run(){
 	cout<< "Rational-start" <<endl;
+	test_Lehmar();
+	autotest_Lehmar(100000);
 	test_Euclid();
 	autotest_Euclid(100000);
 	test_Steiner();
@@ -105,6 +107,28 @@ void TesterRational::autotest_Euclid(int len){
 		if (ga != gb) {
 			cout << l1.toString() << " " << l2.toString();
 			cout << " auto_Euclid:Error " << ga.toHex() << " != "<< gb.toHex() << endl;  
+		}
+		cout << "." ;
+	}
+	cout << "k" << endl;
+}
+
+void TesterRational::autotest_Lehmar(int len){
+	int i;
+	Large l1;
+	Large l2;
+	srand( (unsigned)time(NULL) );
+
+	for (i = 0; i < TIMES; i++) {
+		l1 = Large::Set(randomString(len), base, in_base);
+		l2 = Large::Set(randomString(len), base, in_base);
+		Large ga = LargeRational::GCD(l1, l2);
+		ga.fix();
+		Large gb = LargeRational::Lehmar2(l1, l2, 2);
+		gb.fix();
+		if (ga != gb) {
+			cout << l1.toString() << " " << l2.toString();
+			cout << " auto_Lehmar:Error " << ga.toHex() << " != "<< gb.toHex() << endl;  
 		}
 		cout << "." ;
 	}
@@ -480,6 +504,100 @@ void TesterRational::test_Euclid(){
 	result = Large::Set("a234",base,in_base);
 	if (!(LargeRational::Euclid(test1, test2) == result)){
 		cout << "Test_Euclid_Rational12: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+}
+
+void TesterRational::test_Lehmar(){
+	//test0
+	Large test1 = Large::Set("19ec6dc", base, in_base);
+	Large test2 = Large::Set("989680",base,in_base);
+	Large result =Large::Set("4",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational0: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test1
+	test1 = Large::Set("123", base, in_base);
+	test2 = Large::Set("123",base,in_base);
+	result =Large::Set("123",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational1: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test2
+	test1 = Large::Set("80", base, in_base);
+	test2 = Large::Set("40",base,in_base);
+	result =Large::Set("40",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational2: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test3
+	test1 = Large::Set("1000", base, in_base);
+	test2 = Large::Set("125",base,in_base);
+	result =Large::Set("1",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational3: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test4
+	test1 = Large::Set("4321", base, in_base);
+	test2 = Large::Set("1234",base,in_base);
+	result = Large::Set("5",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational4: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test5
+	test1 = Large::Set("123321", base, in_base);
+	test2 = Large::Set("0a0",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational5: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test6
+	test1 = Large::Set("123321", base, in_base);
+	test2 = Large::Set("0a0",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational6: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test7
+	test1 = Large::Set("10", base, in_base);
+	test2 = Large::Set("ffbbaa",base,in_base);
+	result = Large::Set("2",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational7: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test8
+	test1 = Large::Set("1", base, in_base);
+	test2 = Large::Set("ffad213",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational8: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test9
+	test1 = Large::Set("1123521", base, in_base);
+	test2 = Large::Set("1",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational9: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test10
+	test1 = Large::Set("11", base, in_base);
+	test2 = Large::Set("1121",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational10: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test11
+	test1 = Large::Set("a234", base, in_base);
+	test2 = Large::Set("234b",base,in_base);
+	result = Large::Set("1",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational11: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
+	}
+	//test12
+	test1 = Large::Set("a234", base, in_base);
+	test2 = Large::Set("b88cd404",base,in_base);
+	result = Large::Set("a234",base,in_base);
+	if (!(LargeRational::Lehmar2(test1, test2, 2) == result)){
+		cout << "Test_Lehmar_Rational12: " << test1.toString() << " " << test2.toString() << " " << result.toString() << endl;
 	}
 }
 
