@@ -30,6 +30,8 @@ class Tester{
 		void test_bigger();
 		void test_hex();
 		void test_rest();
+		void autotest_inverse(int len);
+		void test_inverse();
 
 };
 

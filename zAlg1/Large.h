@@ -739,7 +739,7 @@ class Large
 			// a¿ d³ugoœæ liczby bêdzie poteg¹ 2 
 			//fillToPower(large);
 
-			for(unsigned i=0; i<how_long && i<lista.size(); i++){
+			for(long i=0; i<how_long && (unsigned)i<lista.size(); i++){
 				ret.push_back(lista[i]);
 			}
 
@@ -820,6 +820,8 @@ class Large
 		long lastNum();
 
 		long length();
+
+		Large inverseMod(Large mod);
 
 		//OPERATORY
 		inline bool operator<(Large l) {

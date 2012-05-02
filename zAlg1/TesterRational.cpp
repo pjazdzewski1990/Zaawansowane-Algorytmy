@@ -12,7 +12,7 @@
 #include <vector>
 #include <cstdlib>
 
-#define TIMES 1000
+#define TIMES 100
 
 //uruchamiaj wszystkie testy po kolei
 void TesterRational::run(){

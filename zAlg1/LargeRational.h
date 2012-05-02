@@ -221,13 +221,26 @@ class LargeRational {
 			Algorytm Euklidesa wyznaczania GCD
 		*/
 		static Large Euclid(Large a, Large b){
-		  Large a0 = a;
-		  Large b0 = b;
+			Large a0 = a;
+			Large b0 = b;
+			Large p = Large::Set("1", a.getBase());
+			Large q = Large::Set("0", a.getBase());
+
+			//Wówczas NWD(a0, b0) = p*a0 + q*b0
+			return Euclid(a, b, p, a0, q, b0);
+		}
+
+		/**
+			Algorytm Euklidesa wyznaczania GCD
+		*/
+		static Large Euclid(Large a, Large b, Large& p, Large& a0, Large& q, Large& b0){
+		  a0 = a;
+		  b0 = b;
 
 		  Large zero = Large::Set("0", a.getBase());
 
-		  Large p = Large::Set("1", a.getBase());
-		  Large q = Large::Set("0", a.getBase());
+		  p = Large::Set("1", a.getBase());
+		  q = Large::Set("0", a.getBase());
 		  Large r = Large::Set("0", a.getBase());
 		  Large s = Large::Set("1", a.getBase());
 
@@ -253,12 +266,12 @@ class LargeRational {
 			Algorytm Lehmara wyznaczania GCD
 		*/
 		static Large Lehmar2(Large u, Large v, long part){
+		while(true){
 			//pozbywamy siê poprzedzaj¹cych zer
 			u.fix();
 			v.fix();
 
 			// KROK L1
-			L1:
 			Large one = Large::Set("1", u.getBase());
 			one.setNegative(false);
 			Large zero = Large::Set("0", u.getBase());
@@ -288,8 +301,8 @@ class LargeRational {
 			}
 
 			//przygotuj wartoœci
-			Large u$ = Large(u.copy(part), u.getBase()); 
-			Large v$ = Large(v.copy(part), v.getBase());
+			Large us = Large(u.copy(part), u.getBase()); 
+			Large vs = Large(v.copy(part), v.getBase());
 			
 			//cout << u.toString() << "->" << u$.toString() << endl;
 			//cout << v.toString() << "->" << v$.toString() << endl;
@@ -299,17 +312,17 @@ class LargeRational {
 			Large C = zero;
 			Large D = one;
 
-			Large u_ = u$ + B; 
-			Large v_ = u$ + D;
-			Large u__ = u$ + A; 
-			Large v__ = u$ + C;
+			Large u_ = us + B; 
+			Large v_ = us + D;
+			Large u__ = us + A; 
+			Large v__ = us + C;
 
 			// KROK L2
-			Large mianownik = (v$+C);
+			Large mianownik = (vs+C);
 			if(!(mianownik.compareAbsolute(zero)==0)){
-				Large q = (u$+A)/mianownik;
-				mianownik = (v$+D);
-				while(!(mianownik.compareAbsolute(zero)==0) && q == ((u$+B)/mianownik)){
+				Large q = (us+A)/mianownik;
+				mianownik = (vs+D);
+				while(!(mianownik.compareAbsolute(zero)==0) && q == ((us+B)/mianownik)){
 					// KROK L3
 					Large T = A - q*C;
 					A = C;
@@ -317,9 +330,9 @@ class LargeRational {
 					T = B - q*D;
 					B = D;
 					D = T;
-					T = u$ - q*v$;
-					u$ = v$;
-					v$ = T;
+					T = us - q*vs;
+					us = vs;
+					vs = T;
 				}
 			}
 			// KROK L4
@@ -339,7 +352,7 @@ class LargeRational {
 					v = w;
 				}
 			}
-			goto L1;
+		}
 		}
 		/**
 			Dzielenie dwóch ulamków na zasadzie mno¿enia z liczb¹ odwrotn¹ 
@@ -352,7 +365,7 @@ class LargeRational {
 		LargeRational substract(LargeRational arg);
 
 		/*
-		Fix dla rzeczywistej
+			Fix dla rzeczywistej
 		*/
 		void fix();
 
