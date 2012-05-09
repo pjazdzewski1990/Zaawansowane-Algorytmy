@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
 	Tester t = Tester();
 	t.run();
 	TesterRational tt = TesterRational();
-	tt.run();
+	//tt.run();
 
 	/*
 	cin>>liczba1>>liczba2;

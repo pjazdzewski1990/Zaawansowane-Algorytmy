@@ -184,7 +184,7 @@ long Large::length(){
 
 Large Large::inverseMod(Large mod){
 	Large a0 = Large(*this);
-	Large b0 = mod;
+	Large b0 = Large(mod);
 	Large p = Large::Set("1", a0.getBase());
 	Large q = Large::Set("0", a0.getBase());
 
@@ -192,11 +192,18 @@ Large Large::inverseMod(Large mod){
 	Large NWD =  LargeRational::Euclid(*this, mod, p, a0, q, b0);
 	Large one = Large::Set("1", a0.getBase());
 
+	//jeœli NWD nie jest rowne 1 to odwortnosc nie intnieje(0)
 	if(one.compareAbsolute(NWD) != 0){
 		return Large::Set("0", a0.getBase());
 	}
 
-	p.setNegative(false);
-	Large result = mod - p;
+	//p.setNegative(false);
+	
+	//TODO: zwracamy p czy mod-p
+	//return p;
+
+	//czasami zwracane inv jest wiêksze ni¿ mod
+	Large result =  mod + p;
+	result.divide(mod, result);
 	return result;
 }

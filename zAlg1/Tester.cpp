@@ -8,7 +8,7 @@
 #include <iostream>
 #include <time.h>
 
-#define TIMES 300
+#define TIMES 10000
 
 //uruchamiaj wszystkie testy po kolei
 void Tester::run(){
@@ -31,6 +31,8 @@ void Tester::run(){
 //testuj odwrotnosc modulo
 void Tester::autotest_inverse(int len){
 	Large one = Large::Set("1", base, in_base);
+	Large zero = Large::Set("0", base, in_base);
+
 	TesterRational tr = TesterRational();
 	int i;
 	Large a;
@@ -41,13 +43,19 @@ void Tester::autotest_inverse(int len){
 	for (i = 0; i < TIMES; i++) {
 		a = Large::Set(tr.randomString(len), base, in_base);
 		mod = Large::Set(tr.randomString(len), base, in_base);
+		//jeœli a jest wiêksza ni¿ mod to nie ma sensu szukaæ
+		if(a > mod){
+			i--;
+			continue;
+		}
 		inv = a.inverseMod(mod);
 
 		Large result = Large(); 
 		(a * inv).divide(mod, result);
-		if (result.compareAbsolute(result)) {
-			cout << a.toString() << " " << mod.toString();
-			cout << " auto_Steiner:Error " << inv.toHex() << endl;  
+		//wynik jest b³êdny gdy reszta nie jest równa jeden i inv nie jest zerem(znaczy to ze nie ma odwrotnosci)
+		if (result.compareAbsolute(one)!=0 && inv.compareAbsolute(zero)!=0) {
+			cout << " auto_Inv:Error " << endl;  
+			cout << " a " << a.toString() << " inv " << inv.toString()  << " mod " << mod.toString() << endl;;
 		}
 		cout << "." ;
 	}
@@ -57,40 +65,85 @@ void Tester::autotest_inverse(int len){
 //testuj odwrotnosc modulo
 void Tester::test_inverse(){
 	//test1
+	Large one = Large::Set("1", base, in_base);
+	Large zero = Large::Set("0", base, in_base);
+
 	Large test1 = Large::Set("12", base, in_base);
 	Large mod = Large::Set("2f", base, in_base);
-	if (test1.inverseMod(mod) != Large::Set("22", base, in_base)){
+	Large inv = test1.inverseMod(mod);
+	Large result;
+
+	//jeœli istnieje liczba odwrotna(nie jest zerem) i odwrotnoœæ razy liczba mod to jeden,
+	// to wynik jest poprawny
+	/*(test1 * inv).divide(mod, result);
+	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
 		cout << "Test_Inverse1: " << test1.toString() << " " << mod.toString() << endl;
 	}
 	//test2
 	test1 = Large::Set("3", base, in_base);
 	mod = Large::Set("7", base, in_base);
-	if (test1.inverseMod(mod) != Large::Set("5", base, in_base)){
+	inv = test1.inverseMod(mod);
+	(test1 * inv).divide(mod, result);
+	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
 		cout << "Test_Inverse2: " << test1.toString() << " " << mod.toString() << endl;
-	}
+	}*/
 	//test3
 	test1 = Large::Set("c", base, in_base);
 	mod = Large::Set("11", base, in_base);
-	if (test1.inverseMod(mod) != Large::Set("a", base, in_base)){
+	inv = test1.inverseMod(mod);
+	(test1 * inv).divide(mod, result);
+	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
 		cout << "Test_Inverse3: " << test1.toString() << " " << mod.toString() << endl;
 	}
 	//test4
 	test1 = Large::Set("21", base, in_base);
 	mod = Large::Set("61", base, in_base);
-	if (test1.inverseMod(mod) != Large::Set("32", base, in_base)){
+	inv = test1.inverseMod(mod);
+	(test1 * inv).divide(mod, result);
+	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
 		cout << "Test_Inverse4: " << test1.toString() << " " << mod.toString() << endl;
 	}
 	//test5
 	test1 = Large::Set("b", base, in_base);
 	mod = Large::Set("17", base, in_base);
-	if (test1.inverseMod(mod) != Large::Set("15", base, in_base)){
+	inv = test1.inverseMod(mod);
+	(test1 * inv).divide(mod, result);
+	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
 		cout << "Test_Inverse5: " << test1.toString() << " " << mod.toString() << endl;
 	}
 	//test6
 	test1 = Large::Set("5", base, in_base);
 	mod = Large::Set("13", base, in_base);
-	if (test1.inverseMod(mod) != Large::Set("f", base, in_base)){
+	inv = test1.inverseMod(mod);
+	(test1 * inv).divide(mod, result);
+	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
 		cout << "Test_Inverse6: " << test1.toString() << " " << mod.toString() << endl;
+	}
+	//test7
+	test1 = Large::Set("80722", base, in_base);
+	mod = Large::Set("41413", base, in_base);
+	inv = test1.inverseMod(mod);
+	(test1 * inv).divide(mod, result);
+	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
+		cout << "Test_Inverse7: " << test1.toString() << " " << mod.toString() << endl;
+	}
+	//test8
+	test1 = Large::Set("39782", base, in_base);
+	mod = Large::Set("43d35", base, in_base);
+	inv = test1.inverseMod(mod);
+	Large test = test1.inverseMod(mod);
+	(test1 * inv).divide(mod, result);
+	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
+		cout << "Test_Inverse8: " << test1.toString() << " " << mod.toString() << endl;
+	}
+	//test9
+	test1 = Large::Set("45881", base, in_base);
+	mod = Large::Set("152", base, in_base);
+	inv = test1.inverseMod(mod);
+	test = test1.inverseMod(mod);
+	(test1 * inv).divide(mod, result);
+	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
+		cout << "Test_Inverse9: " << test1.toString() << " " << mod.toString() << endl;
 	}
 }
 
