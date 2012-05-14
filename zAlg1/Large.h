@@ -823,6 +823,8 @@ class Large
 
 		Large inverseMod(Large mod);
 
+		static bool areRelativelyPrime(Large arg0, Large arg1);
+
 		//OPERATORY
 		inline bool operator<(Large l) {
 			return (compare(l) == 1);

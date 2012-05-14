@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "Large.h"
 #include "LargeRational.h"
@@ -206,4 +206,19 @@ Large Large::inverseMod(Large mod){
 	Large result =  mod + p;
 	result.divide(mod, result);
 	return result;
+}
+
+/**
+Sprawdza czy dwie liczby sa wzglednie pierwsze
+*/
+bool Large::areRelativelyPrime(Large arg0, Large arg1){
+	Large result = LargeRational::GCD(arg0, arg1);
+	Large one = Large::Set("1", result.getBase());
+
+	//jesli wynik to jeden, to liczby sa wzglednie pierwsze
+	if(result.compareAbsolute(one) == 0){
+		return true;
+	}else{
+		return false;
+	}
 }

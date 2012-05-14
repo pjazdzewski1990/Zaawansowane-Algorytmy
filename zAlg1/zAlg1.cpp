@@ -4,7 +4,7 @@
 	Program napisany pod Windowsa, by uruchomiæ na sigmie prosze o wykomentowanie poni¿szej linijki 
 	"stdafx.h" który jest tworem wybitnie windowsowym
 */
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include <cstdlib>
 #include <iostream>
