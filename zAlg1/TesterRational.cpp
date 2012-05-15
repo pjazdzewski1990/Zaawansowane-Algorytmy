@@ -1,9 +1,9 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "TesterRational.h"
 #include "LargeRational.h"
 //to nale¿y wykomentowaæ przed komplicj¹ z gcc
-//#include "LargeRational.cpp"
+#include "LargeRational.cpp"
 #include "Large.h"
 
 #include <string>

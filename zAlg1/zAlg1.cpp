@@ -4,7 +4,7 @@
 	Program napisany pod Windowsa, by uruchomiæ na sigmie prosze o wykomentowanie poni¿szej linijki 
 	"stdafx.h" który jest tworem wybitnie windowsowym
 */
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -17,6 +17,8 @@
 
 #include "Large.h"
 #include "LargeRational.h"
+
+#include "Helper.h"
 
 #include "Profiler.h"
 #include "Tester.h"
@@ -49,63 +51,11 @@ int main(int argc, char* argv[])
 	LargeRational u2(base);
 	LargeRational wynik(base);
 
-	/*while(true){
-		cin>>liczba1>>command>>liczba2;
-		l1 = Large::Set(liczba1, base, in_base);
-		l2 = Large::Set(liczba2, base, in_base);
-		switch(command){
-			case '+':
-				res = l1 + l2;
-				//res = Large::convert(res, 16);
-				cout << res.toHex() << endl;
-				break;
-			case '-':
-				res = l1 - l2;
-				//res = Large::convert(res, 16);
-				cout << res.toHex() << endl;
-				break;
-			case '*':
-				res = l1 * l2;
-				//res = Large::convert(res, 16);
-				cout << res.toHex() << endl;
-				break;
-			case '/':
-				res = l1 / l2;
-				//res = Large::convert(res, 16);
-				cout << res.toHex() << endl;
-				break;
-			case '?':
-				cout << Large::comparisonToChar(l1,l2) << endl;
-				break;
-			case 'q':	//rundka profilera
-				Profiler().profile();
-				break;
-			default:
-				cout << "Nie poprawny operator" << endl;
-		}
-	//}*/
-	/*while(true){
-		cin>>liczba1>>command>>liczba2;
-		u1 = LargeRational::Set(liczba1, base, in_base);
-		u2 = LargeRational::Set(liczba2, base, in_base);
-		switch(command){
-			case '+':
-				wynik = u1 + u2;
-				//res = Large::convert(res, 16);
-				cout << wynik.toHex() << endl;
-				break;
-			case '*':
-				wynik = u1 * u2;
-				//res = Large::convert(res, 16);
-				cout << wynik.toHex() << endl;
-				break;
-			default:
-				cout << "Nie poprawny operator" << endl;
-		}
-	}*/
+	vector<Large> vect = Helper::readFromfile("crt.txt", base, 10);
+	res = Large::crt(vect);
 
 	Tester t = Tester();
-	t.run();
+	//t.run();
 	TesterRational tt = TesterRational();
 	//tt.run();
 

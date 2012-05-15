@@ -342,14 +342,6 @@ class Large
 
 				power++;
 			}
-
-			//TODO:obejœciue
-			/*long test = result.lista[0];
-			if(test >= new_base){
-				result.lista.insert(result.lista.begin(), test/new_base);
-				//result.lista.push_front(test/new_base);
-				result.lista[1] = test%new_base;
-			}*/
 			result.fix();
 
 			result.setNegative(l.isNegative());
@@ -823,7 +815,9 @@ class Large
 
 		Large inverseMod(Large mod);
 
-		static bool areRelativelyPrime(Large arg0, Large arg1);
+		static bool coPrime(Large arg0, Large arg1);
+
+		static Large crt(vector<Large> larges);
 
 		//OPERATORY
 		inline bool operator<(Large l) {

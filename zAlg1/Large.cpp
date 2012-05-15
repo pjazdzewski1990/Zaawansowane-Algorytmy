@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "Large.h"
 #include "LargeRational.h"
@@ -209,9 +209,9 @@ Large Large::inverseMod(Large mod){
 }
 
 /**
-Sprawdza czy dwie liczby sa wzglednie pierwsze
+	Sprawdza czy dwie liczby sa wzglednie pierwsze
 */
-bool Large::areRelativelyPrime(Large arg0, Large arg1){
+bool Large::coPrime(Large arg0, Large arg1){
 	Large result = LargeRational::GCD(arg0, arg1);
 	Large one = Large::Set("1", result.getBase());
 
@@ -221,4 +221,34 @@ bool Large::areRelativelyPrime(Large arg0, Large arg1){
 	}else{
 		return false;
 	}
+}
+
+/**
+	Liczy wynik tzw. "Chiñskiego twierdzenia o resztach"
+	Pobiera wektor liczb Large: liczby o parzystych indeksach 
+	 to kolejne A, natomiast te o parzystych to kolejne M 
+	Zak³ada, ¿e przekazane liczby sa wzglednie pierwsze i 
+	ze jest ich parzysta liczba
+*/
+Large Large::crt(vector<Large> larges){
+	//oblicz iloczyn wszystkich m_i
+	//pamiêtamy, ¿e m to so druga liczba,
+	// zaczynajac od indeksu 1
+	Large m = Large::Set("1",larges[0].getBase());
+	for(int i=1; i<larges.size(); i+=2){
+		m = m * larges[i];
+	}
+
+	//oblicz wynik
+	Large result = Large::Set("0", larges[0].getBase());
+	for(int i=1; i<larges.size(); i+=2){
+		Large m_i = larges[i];				//aktulanie rozwazane modulo
+		Large div = m/m_i;					//iloczyn wszystkich modulo oprocz aktualnie rozwazanego
+		div.divide(m_i, div);				//modulo z div
+		Large s_i = div.inverseMod(m_i);	//odwrotnosc do "div" modulo m_i
+		result = result + (m_i * s_i * larges[i-1]);	//oblicz wynik
+		result = result.divide(m, result);	//wynik musi byæ modulo iloczyn
+	}
+
+	return result;
 }
