@@ -244,11 +244,23 @@ Large Large::crt(vector<Large> larges){
 	for(int i=1; i<larges.size(); i+=2){
 		Large m_i = larges[i];				//aktulanie rozwazane modulo
 		Large div = m/m_i;					//iloczyn wszystkich modulo oprocz aktualnie rozwazanego
-		div.divide(m_i, div);				//modulo z div
-		Large s_i = div.inverseMod(m_i);	//odwrotnosc do "div" modulo m_i
-		result = result + (m_i * s_i * larges[i-1]);	//oblicz wynik
-		result = result.divide(m, result);	//wynik musi byæ modulo iloczyn
+		Large modulo(result.getBase()); 
+		div.divide(m_i, modulo);				//modulo z div
+cout << modulo.inverseMod(m_i).toString() << " modulo " << modulo.toString() << " m_i " << m_i.toString() << endl;
+		Large s_i = modulo.inverseMod(m_i);	//odwrotnosc do "div" modulo m_i
+		Large partial = (div * s_i * larges[i-1]);
+		result = result + partial;			//oblicz wynik
+		result.divide(m, result);			//wynik musi byæ modulo iloczyn
 	}
 
 	return result;
+}
+
+
+Large Large::mod(Large b){
+	Large rest(base);
+
+	divide(b, rest);
+
+	return rest;
 }

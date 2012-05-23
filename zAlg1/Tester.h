@@ -32,6 +32,7 @@ class Tester{
 		void test_rest();
 		void autotest_inverse(int len);
 		void test_inverse();
+		void autotest_crt(int len);
 
 };
 

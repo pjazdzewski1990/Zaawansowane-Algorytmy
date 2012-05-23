@@ -14,6 +14,7 @@
 void Tester::run(){
 	cout<< "Test-start" <<endl;
 
+	autotest_crt(1000);
 	test_inverse();
 	autotest_inverse(100000);
 	test_rest();
@@ -635,6 +636,63 @@ void Tester::test_bigger(){
 	test2 = Large::Set("-22", base, in_base);
 	if (!(test1>test2)){
 		cout << "Test_Bigger5: " << test1.toString() << " " << test2.toString() << endl;
+	}
+}
+
+void Tester::autotest_crt(int len){
+	TesterRational tr = TesterRational();
+	Large a;
+	Large a_m;
+	Large b;
+	Large b_m;
+	Large c;
+	Large c_m;
+
+	vector<Large> vect = vector<Large>();
+
+	Large result(base);
+
+	for(int i=0; i<TIMES; i++){
+		a = Large::Set(tr.randomString(len/2), base, in_base);
+		a_m = Large::Set(tr.randomString(len), base, in_base);
+
+		b = Large::Set(tr.randomString(len/2), base, in_base);
+		b_m = Large::Set(tr.randomString(len), base, in_base);
+		while(!Large::coPrime(a_m, b_m)){
+			b_m = Large::Set(tr.randomString(len), base, in_base);
+		}
+		c = Large::Set(tr.randomString(len/2), base, in_base);
+		c_m = Large::Set(tr.randomString(len), base, in_base);
+		while(!Large::coPrime(b_m, c_m) || !Large::coPrime(a_m, c_m)){
+			c_m = Large::Set(tr.randomString(len), base, in_base);
+		}
+		
+		vect.push_back(a);
+		vect.push_back(a_m);
+		vect.push_back(b);
+		vect.push_back(b_m);
+		vect.push_back(c);
+		vect.push_back(c_m);
+
+		result = Large::crt(vect);
+
+		if(result.mod(a_m) != a){
+			cout << "AutoTest CRT: Error przy a= " << a.toString() << " mod "
+				<< a_m.toString() << " wynik " << result.toString() << endl;
+		}
+
+		if(result.mod(b_m) != b){
+			cout << "AutoTest CRT: Error przy b= " << b.toString() << " mod " 
+				<< b_m.toString() << " wynik " << result.toString() << endl;
+		}
+
+		if(result.mod(c_m) != c){
+			cout << "AutoTest CRT: Error przy c= " << c.toString() << " mod " 
+				<< c_m.toString() << " wynik " << result.toString() << endl;
+			break;
+		}
+
+		cout << "." ;
 	}
 }
 

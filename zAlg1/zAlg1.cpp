@@ -55,9 +55,9 @@ int main(int argc, char* argv[])
 	res = Large::crt(vect);
 
 	Tester t = Tester();
-	//t.run();
+	t.run();
 	TesterRational tt = TesterRational();
-	//tt.run();
+	tt.run();
 
 	/*
 	cin>>liczba1>>liczba2;

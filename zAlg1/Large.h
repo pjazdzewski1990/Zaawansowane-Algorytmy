@@ -819,6 +819,9 @@ class Large
 
 		static Large crt(vector<Large> larges);
 
+		//reszta z dzielenia this/b czyli this%b
+		Large mod(Large b);
+
 		//OPERATORY
 		inline bool operator<(Large l) {
 			return (compare(l) == 1);
