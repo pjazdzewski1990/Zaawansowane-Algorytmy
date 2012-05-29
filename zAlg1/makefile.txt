@@ -1,2 +1,2 @@
 all:
-	g++ -Wall -pedantic zAlg1.cpp Large.cpp Profiler.cpp Tester.cpp LargeRational.cpp TesterRational.cpp
+	g++ -Wall -pedantic zAlg1.cpp Large.cpp Profiler.cpp Tester.cpp LargeRational.cpp TesterRational.cpp Helper.cpp

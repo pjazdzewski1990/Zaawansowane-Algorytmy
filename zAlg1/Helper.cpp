@@ -9,15 +9,16 @@
 #include <deque>
 #include <map>
 #include <math.h>
+#include <iterator>
 
-#include <boost/algorithm/string.hpp>
+//#include <boost/algorithm/string.hpp>
 
 #include "Helper.h"
 #include "Large.h"
 
 using namespace std;
 
-vector<Large> Helper::readFromfile(string filename, long base, long in_base=16l){
+vector<Large> Helper::readFromfile(char* filename, long base, long in_base=16l){
 	vector<Large> read = vector<Large>();
 	Large num;
 
@@ -27,7 +28,7 @@ vector<Large> Helper::readFromfile(string filename, long base, long in_base=16l)
 		while (myfile.good()){
 			getline (myfile,line);		//wczytaj cala linie 
 			//podziel wedlug spacji
-			vector<std::string> strs;	//wektor ciagow po rozdzieleniu
+			/*vector<std::string> strs;	//wektor ciagow po rozdzieleniu
 			boost::split(strs, line, boost::is_any_of(" "));
 			if(strs.size()==2){
 				//utwórz liczby i zapiszz je w wektorze
@@ -37,7 +38,17 @@ vector<Large> Helper::readFromfile(string filename, long base, long in_base=16l)
 				read.push_back(num);
 			}else{
 				//pomin linie
+			}*/
+			vector<string> tokens;
+			istringstream iss(line);
+			copy(istream_iterator<string>(iss),
+				istream_iterator<string>(),
+				back_inserter<vector<string> >(tokens));
+			if(tokens.size() == 2){
+				read.push_back(Large::Set(tokens[0], base, in_base));
+				read.push_back(Large::Set(tokens[1], base, in_base));
 			}
+			tokens.clear();
 		}
 		myfile.close(); // po fakcie zamknij plik
 	}

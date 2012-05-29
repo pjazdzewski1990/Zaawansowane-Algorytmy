@@ -235,18 +235,18 @@ Large Large::crt(vector<Large> larges){
 	//pamiêtamy, ¿e m to so druga liczba,
 	// zaczynajac od indeksu 1
 	Large m = Large::Set("1",larges[0].getBase());
-	for(int i=1; i<larges.size(); i+=2){
+	for(unsigned i=1; i<larges.size(); i+=2){
 		m = m * larges[i];
 	}
 
 	//oblicz wynik
 	Large result = Large::Set("0", larges[0].getBase());
-	for(int i=1; i<larges.size(); i+=2){
+	for(unsigned i=1; i<larges.size(); i+=2){
 		Large m_i = larges[i];				//aktulanie rozwazane modulo
 		Large div = m/m_i;					//iloczyn wszystkich modulo oprocz aktualnie rozwazanego
 		Large modulo(result.getBase()); 
 		div.divide(m_i, modulo);				//modulo z div
-cout << modulo.inverseMod(m_i).toString() << " modulo " << modulo.toString() << " m_i " << m_i.toString() << endl;
+//cout << modulo.inverseMod(m_i).toString() << " modulo " << modulo.toString() << " m_i " << m_i.toString() << endl;
 		Large s_i = modulo.inverseMod(m_i);	//odwrotnosc do "div" modulo m_i
 		Large partial = (div * s_i * larges[i-1]);
 		result = result + partial;			//oblicz wynik

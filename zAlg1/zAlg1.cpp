@@ -53,18 +53,21 @@ int main(int argc, char* argv[])
 
 	vector<Large> vect = Helper::readFromfile("crt.txt", base, 10);
 	res = Large::crt(vect);
+	cout << "CRT: " + res.toString();
 
+	
 	Tester t = Tester();
 	t.run();
 	TesterRational tt = TesterRational();
 	tt.run();
-
+	
 	/*
 	cin>>liczba1>>liczba2;
 	l1 = Large::Set(liczba1, base, in_base);
 	l2 = Large::Set(liczba2, base, in_base);
 	cout << "GCD:" << LargeRational::GCD(l1, l2).toHex() << " Steiner:" << LargeRational::Steiner(l1, l2).toHex();
 	*/
+	cin >> command;
 	return 0;
 }
 

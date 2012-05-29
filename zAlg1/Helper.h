@@ -20,7 +20,7 @@ class Helper
 {
 	public:
 		//wczytywanei z pliku na potrzeby CRT
-		static vector<Large> readFromfile(string filename, long base, long in_base);
+		static vector<Large> readFromfile(char* filename, long base, long in_base);
 };
 
 #endif

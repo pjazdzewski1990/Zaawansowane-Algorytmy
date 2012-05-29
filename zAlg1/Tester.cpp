@@ -76,7 +76,7 @@ void Tester::test_inverse(){
 
 	//jeœli istnieje liczba odwrotna(nie jest zerem) i odwrotnoœæ razy liczba mod to jeden,
 	// to wynik jest poprawny
-	/*(test1 * inv).divide(mod, result);
+	(test1 * inv).divide(mod, result);
 	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
 		cout << "Test_Inverse1: " << test1.toString() << " " << mod.toString() << endl;
 	}
@@ -87,7 +87,7 @@ void Tester::test_inverse(){
 	(test1 * inv).divide(mod, result);
 	if (inv.compareAbsolute(zero)!=0 && result.compareAbsolute(one)!=0){
 		cout << "Test_Inverse2: " << test1.toString() << " " << mod.toString() << endl;
-	}*/
+	}
 	//test3
 	test1 = Large::Set("c", base, in_base);
 	mod = Large::Set("11", base, in_base);
@@ -649,24 +649,29 @@ void Tester::autotest_crt(int len){
 	Large c_m;
 
 	vector<Large> vect = vector<Large>();
-
+	srand( (unsigned)time(NULL) );
 	Large result(base);
 
 	for(int i=0; i<TIMES; i++){
 		a = Large::Set(tr.randomString(len/2), base, in_base);
 		a_m = Large::Set(tr.randomString(len), base, in_base);
+		a.divide(a_m, a);
 
 		b = Large::Set(tr.randomString(len/2), base, in_base);
 		b_m = Large::Set(tr.randomString(len), base, in_base);
 		while(!Large::coPrime(a_m, b_m)){
 			b_m = Large::Set(tr.randomString(len), base, in_base);
 		}
+		b.divide(b_m, b);
+
 		c = Large::Set(tr.randomString(len/2), base, in_base);
 		c_m = Large::Set(tr.randomString(len), base, in_base);
 		while(!Large::coPrime(b_m, c_m) || !Large::coPrime(a_m, c_m)){
 			c_m = Large::Set(tr.randomString(len), base, in_base);
 		}
+		c.divide(c_m, c);
 		
+		vect.clear();
 		vect.push_back(a);
 		vect.push_back(a_m);
 		vect.push_back(b);
@@ -679,14 +684,28 @@ void Tester::autotest_crt(int len){
 		if(result.mod(a_m) != a){
 			cout << "AutoTest CRT: Error przy a= " << a.toString() << " mod "
 				<< a_m.toString() << " wynik " << result.toString() << endl;
+			cout << "AutoTest CRT: Error przy b= " << b.toString() << " mod " 
+				<< b_m.toString() << " wynik " << result.toString() << endl;
+			cout << "AutoTest CRT: Error przy c= " << c.toString() << " mod " 
+				<< c_m.toString() << " wynik " << result.toString() << endl;
+			break;
 		}
 
 		if(result.mod(b_m) != b){
+			cout << "AutoTest CRT: Error przy a= " << a.toString() << " mod "
+				<< a_m.toString() << " wynik " << result.toString() << endl;
 			cout << "AutoTest CRT: Error przy b= " << b.toString() << " mod " 
 				<< b_m.toString() << " wynik " << result.toString() << endl;
+			cout << "AutoTest CRT: Error przy c= " << c.toString() << " mod " 
+				<< c_m.toString() << " wynik " << result.toString() << endl;
+			break;
 		}
 
 		if(result.mod(c_m) != c){
+			cout << "AutoTest CRT: Error przy a= " << a.toString() << " mod "
+				<< a_m.toString() << " wynik " << result.toString() << endl;
+			cout << "AutoTest CRT: Error przy b= " << b.toString() << " mod " 
+				<< b_m.toString() << " wynik " << result.toString() << endl;
 			cout << "AutoTest CRT: Error przy c= " << c.toString() << " mod " 
 				<< c_m.toString() << " wynik " << result.toString() << endl;
 			break;
